@@ -1,9 +1,10 @@
+import 'package:app_lista/models/tarefa.dart';
 import 'package:flutter/material.dart';
 import "package:app_lista/widgets/tarefa_list_item.dart";
 
 final TextEditingController tarefaController = TextEditingController();
 
-List<String> listTarefas = [];
+List<Tarefa> listTarefas = [];
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({super.key});
@@ -40,7 +41,12 @@ class _TodoListPageState extends State<TodoListPage> {
                       onPressed: (){
                         String text = tarefaController.text;
                         setState(() {
-                          listTarefas.add(text);
+                          //Criando um objeto tarefa
+                          Tarefa newTarefa = Tarefa(
+                              titulo: text,
+                              dateTime: DateTime.now()
+                          );
+                          listTarefas.add(newTarefa);
                         });                      
                         tarefaController.clear();
                       },
@@ -61,9 +67,9 @@ class _TodoListPageState extends State<TodoListPage> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      for(String tarefa in listTarefas)
+                      for(Tarefa tarefa in listTarefas)
                         TarefaListItem(
-                          title: tarefa,
+                          tarefa: tarefa,
                         )
                     ],
                   ),
