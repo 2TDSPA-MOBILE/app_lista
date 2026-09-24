@@ -4,30 +4,25 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 
 class TarefaListItem extends StatelessWidget {
-  const TarefaListItem({super.key, required this.tarefa});
+  const TarefaListItem({super.key, required this.tarefa,required this.onDelete});
 
   final Tarefa tarefa;
+  final Function(Tarefa) onDelete;
 
   @override
   Widget build(BuildContext context) {
     return Slidable(
       endActionPane: ActionPane(
         motion: BehindMotion(),
-        extentRatio: 0.40,
+        extentRatio: 0.20,
         children: [
           SlidableAction(
             onPressed: (context) {
-              print("botão lixeira clicado");
+              onDelete(tarefa);
             },
             backgroundColor: Colors.red,
             icon: Icons.delete,
-          ),
-          SlidableAction(
-            onPressed: (context) {
-              print("Botão editar clicado");
-            },
-            backgroundColor: Colors.blue,
-            icon: Icons.edit,
+            label: "Excluir",
           ),
         ],
       ),

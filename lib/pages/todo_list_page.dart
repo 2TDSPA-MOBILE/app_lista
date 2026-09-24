@@ -5,6 +5,8 @@ import "package:app_lista/widgets/tarefa_list_item.dart";
 final TextEditingController tarefaController = TextEditingController();
 
 List<Tarefa> listTarefas = [];
+Tarefa? deletedTarefa;
+int? deletedTarefaPos;
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({super.key});
@@ -70,6 +72,7 @@ class _TodoListPageState extends State<TodoListPage> {
                       for(Tarefa tarefa in listTarefas)
                         TarefaListItem(
                           tarefa: tarefa,
+                          onDelete:onDelete
                         )
                     ],
                   ),
@@ -90,5 +93,30 @@ class _TodoListPageState extends State<TodoListPage> {
         ),
       ),
     );
+  }
+  void onDelete(Tarefa tarefa){
+    deletedTarefa = tarefa;
+    deletedTarefaPos = listTarefas.indexOf(tarefa);
+
+    setState(() {
+       listTarefas.remove(tarefa);
+    });  
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: 
+        Text("Tarefa ${tarefa.titulo} foi deletada!",
+          style: TextStyle(color:Colors.black),
+      ),
+       backgroundColor: Colors.white,
+       action: SnackBarAction(
+        label: "Desfazer", 
+        textColor: Colors.red,
+        onPressed: (){
+          setState(() {
+            listTarefas.insert(deletedTarefaPos!, deletedTarefa!);
+          });
+        }
+      ),
+      )
+      );     
   }
 }
