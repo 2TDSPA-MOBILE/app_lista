@@ -83,7 +83,7 @@ class _TodoListPageState extends State<TodoListPage> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xff7a1111)),                      
-                      onPressed: (){},
+                      onPressed: showDeleteTarefasCorfimationDialog,
                       child: Text("Limpar Tudo.",style:TextStyle(color:Colors.white)))
                   ],
                 )
@@ -118,5 +118,38 @@ class _TodoListPageState extends State<TodoListPage> {
       ),
       )
       );     
+  }
+  void showDeleteTarefasCorfimationDialog(){
+    showDialog(
+      context: context,
+      builder: (context)=>AlertDialog(
+        title: Text("Limpar tudo?"),
+        content: Text("Tem certeza que deseja excluir todas as tarefa?"),
+        actions: [
+          TextButton(
+            onPressed: (){
+              Navigator.of(context).pop();
+            }, 
+            child: Text("Cancelar")
+            ),
+          TextButton(
+            onPressed: (){
+              Navigator.of(context).pop();
+              deleteTodasTarefas();
+            },
+            child: Text("Limpar Tudo"),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.red
+            ),
+          )
+        ],
+      )
+    );
+  }
+  void deleteTodasTarefas(){
+    setState(() {
+       listTarefas.clear();//Limpa a lista de tarefas
+    //por completo.
+    });   
   }
 }
