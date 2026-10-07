@@ -1,7 +1,9 @@
 import 'package:app_lista/models/tarefa.dart';
+import 'package:app_lista/repositories/tarefa_repository.dart';
 import 'package:flutter/material.dart';
 import "package:app_lista/widgets/tarefa_list_item.dart";
 
+final TarefaRepository tarefaRepository = TarefaRepository();
 final TextEditingController tarefaController = TextEditingController();
 
 List<Tarefa> listTarefas = [];
@@ -16,6 +18,16 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
+  @override
+  void initState(){
+    super.initState();
+    tarefaRepository.getListaTarefas().then((value){
+      setState(() {
+        listTarefas=value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +61,9 @@ class _TodoListPageState extends State<TodoListPage> {
                               dateTime: DateTime.now()
                           );
                           listTarefas.add(newTarefa);
-                        });                      
+                        });       
+                        //Enviar a lista atualizada para o repository
+                        tarefaRepository.saveTarefaList(listTarefas);               
                         tarefaController.clear();
                       },
                       style: ElevatedButton.styleFrom(
