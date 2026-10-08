@@ -2,6 +2,7 @@ import 'package:app_lista/models/tarefa.dart';
 import 'package:app_lista/repositories/tarefa_repository.dart';
 import 'package:flutter/material.dart';
 import "package:app_lista/widgets/tarefa_list_item.dart";
+import "package:app_lista/pages/configuracoes_page.dart";
 
 final TarefaRepository tarefaRepository = TarefaRepository();
 final TextEditingController tarefaController = TextEditingController();
@@ -9,6 +10,7 @@ final TextEditingController tarefaController = TextEditingController();
 List<Tarefa> listTarefas = [];
 Tarefa? deletedTarefa;
 int? deletedTarefaPos;
+String? errorText;
 
 class TodoListPage extends StatefulWidget {
   const TodoListPage({super.key});
@@ -46,7 +48,8 @@ class _TodoListPageState extends State<TodoListPage> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: "Adicione uma tarefa",
-                          hintText: "Ex: Práticar Flutter"
+                          hintText: "Ex: Práticar Flutter",
+                          errorText: errorText
                         ),           
                       ),
                     ),
@@ -54,6 +57,12 @@ class _TodoListPageState extends State<TodoListPage> {
                     ElevatedButton(
                       onPressed: (){
                         String text = tarefaController.text;
+                        if(text.isEmpty){
+                          setState(() {
+                            errorText = "O campo não pode ser vazio";
+                          });
+                         return;
+                        }
                         setState(() {
                           //Criando um objeto tarefa
                           Tarefa newTarefa = Tarefa(
@@ -61,6 +70,7 @@ class _TodoListPageState extends State<TodoListPage> {
                               dateTime: DateTime.now()
                           );
                           listTarefas.add(newTarefa);
+                          errorText = null;
                         });       
                         //Enviar a lista atualizada para o repository
                         tarefaRepository.saveTarefaList(listTarefas);               
@@ -100,7 +110,16 @@ class _TodoListPageState extends State<TodoListPage> {
                       onPressed: showDeleteTarefasCorfimationDialog,
                       child: Text("Limpar Tudo.",style:TextStyle(color:Colors.white)))
                   ],
-                )
+                ),
+                ElevatedButton(
+                  onPressed: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context)=>ConfiguracoesPage()
+                      )
+                    );
+                  }, 
+                  child: Text("Configurações"))
               ],
             ),
           ),
@@ -114,7 +133,8 @@ class _TodoListPageState extends State<TodoListPage> {
 
     setState(() {
        listTarefas.remove(tarefa);
-    });  
+    });
+    tarefaRepository.saveTarefaList(listTarefas);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: 
         Text("Tarefa ${tarefa.titulo} foi deletada!",
@@ -128,6 +148,7 @@ class _TodoListPageState extends State<TodoListPage> {
           setState(() {
             listTarefas.insert(deletedTarefaPos!, deletedTarefa!);
           });
+          tarefaRepository.saveTarefaList(listTarefas);
         }
       ),
       )
@@ -165,5 +186,6 @@ class _TodoListPageState extends State<TodoListPage> {
        listTarefas.clear();//Limpa a lista de tarefas
     //por completo.
     });   
+    tarefaRepository.saveTarefaList(listTarefas);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_lista/pages/todo_list_page.dart';
+import 'package:app_lista/pages/configuracoes_page.dart';
 void main(){
   runApp(MyApp());
 }
