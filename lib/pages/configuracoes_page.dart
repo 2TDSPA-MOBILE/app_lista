@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ConfiguracoesPage extends StatelessWidget {
-  const ConfiguracoesPage({super.key});
+  final String? textoRecebido;
+
+  //O construtor que recebe o texto
+  const ConfiguracoesPage({
+    super.key,
+    this.textoRecebido 
+  });
 
   @override
   Widget build(BuildContext context) {
