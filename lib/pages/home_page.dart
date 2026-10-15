@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:app_lista/pages/todo_list_page.dart';
 import 'package:app_lista/pages/configuracoes_page.dart';
+import 'package:app_lista/pages/about_page.dart';
+import 'package:app_lista/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,30 +20,46 @@ class _HomePageState extends State<HomePage> {
   int curruntIndex = 0;
 
   //Lista contendo todas as páginas.
-  final List<Widget> pages = [
-    const TodoListPage(),
-    const ConfiguracoesPage()
-    
-  ];
+  final List<Widget> pages = [const TodoListPage(),const ConfiguracoesPage(),const AboutPage(),const ProfilePage()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[curruntIndex],
       bottomNavigationBar: NavigationBar(
-        selectedIndex: curruntIndex,
+        backgroundColor: Colors.amber,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+        animationDuration: Duration(milliseconds: 1000),
+        indicatorColor: Colors.red,       
+        selectedIndex: curruntIndex,       
         onDestinationSelected: (index){
           setState(() {
             curruntIndex=index;
           });
         },
         destinations: const[
-          NavigationDestination(
+          NavigationDestination(            
             icon: Icon(Icons.list), 
-            label: "Tarefas"),
+            label: "Tarefas",
+            selectedIcon: Icon(Icons.list, color: Colors.white),
+            )
+            ,
           NavigationDestination(
             icon: Icon(Icons.settings),
-            label: "Configurações")
+            label: "Configurações",                        
+            selectedIcon: Icon(Icons.settings, color: Colors.white),
+            ),
+          NavigationDestination(
+            icon: Icon(Icons.help),
+            label: "Sobre",
+            selectedIcon: Icon(Icons.help, color: Colors.white),
+          )
+            ,
+          NavigationDestination(
+            icon: Icon(Icons.person), 
+            label: "Perfil",
+            selectedIcon: Icon(Icons.person, color: Colors.white),
+          )
         ],
       )
     );
