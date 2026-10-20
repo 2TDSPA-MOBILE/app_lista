@@ -2,7 +2,7 @@ import 'package:app_lista/models/tarefa.dart';
 import 'package:app_lista/repositories/tarefa_repository.dart';
 import 'package:flutter/material.dart';
 import "package:app_lista/widgets/tarefa_list_item.dart";
-import "package:app_lista/pages/configuracoes_page.dart";
+
 
 final TarefaRepository tarefaRepository = TarefaRepository();
 final TextEditingController tarefaController = TextEditingController();
@@ -113,13 +113,32 @@ class _TodoListPageState extends State<TodoListPage> {
                 ),
                 ElevatedButton(
                   onPressed: (){
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context)=>ConfiguracoesPage(textoRecebido: tarefaController.text)
-                      )
-                    );
+                    Navigator.pushNamed(
+                      context, 
+                      "/configuracoes",
+                      arguments: "Olá, Aluno!"
+                    );               
                   }, 
                   child: Text("Configurações"))
+                  ,
+                  ElevatedButton(
+                  onPressed: (){
+                    Navigator.pushNamed(
+                      context,
+                      "/perfil"
+                    );             
+                  }, 
+                  child: Text("Perfil")),
+
+                  ElevatedButton(
+                    onPressed: (){
+                      Navigator.pushNamed(
+                        context, 
+                        "/sobre");
+                    }, 
+                    child: Text("Ir para tela Sobre")
+                  )
+                
               ],
             ),
           ),

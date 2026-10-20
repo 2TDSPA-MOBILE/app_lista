@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
             label: "Tarefas",
             selectedIcon: Icon(Icons.list, color: Colors.white),
             )
-            ,
+          ,
           NavigationDestination(
             icon: Icon(Icons.settings),
             label: "Configurações",                        

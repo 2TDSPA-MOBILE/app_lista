@@ -1,3 +1,5 @@
+import 'package:app_lista/pages/about_page.dart';
+import 'package:app_lista/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_lista/pages/todo_list_page.dart';
 import 'package:app_lista/pages/configuracoes_page.dart';
@@ -14,7 +16,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage2(),
+      routes: {
+        //Definindo a tela inicial do app
+        "/":(context)=> const TodoListPage(),
+        //Nomeando a rota de tela(configurações)
+        "/configuracoes":(context)=>const ConfiguracoesPage(),
+        //Nomeando a rota de tela(profile)
+        "/perfil":(context)=>const ProfilePage(),
+        //Nomeando a rota de tela(sobre)
+        "/sobre":(context)=>const AboutPage()
+      },
     );
   }
 }
